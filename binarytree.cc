@@ -47,6 +47,30 @@ void postorderTraversal(TreeNode *root, std::vector<int> &result) {
 }
 
 
+void preorderTraversal(TreeNode *root, std::vector<int> &result) {
+  std::stack<struct Node> stack_; 
+  struct Node node(0, root);
+  stack_.push(node);
+  while(!stack_.empty()) {
+    struct Node node(stack_.top());
+    stack_.pop();
+    if (node.ptr != NULL) {
+      if (node.flag == 1) {
+        node.flag = 2;
+        stack_.push(node);
+        struct Node p(0, node.ptr->right);
+        stack_.push(p);
+      } else if (node.flag == 0){
+        node.flag = 1;
+        result.push_back(node.ptr->val);
+        stack_.push(node);
+        struct Node p(0, node.ptr->left);
+        stack_.push(p);
+      }
+    }
+  }
+}
+
 int main() {
   TreeNode *r = new TreeNode(1);
   r->left = new TreeNode(2);
